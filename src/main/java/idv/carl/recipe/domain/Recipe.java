@@ -3,6 +3,7 @@ package idv.carl.recipe.domain;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Carl Lu
@@ -23,6 +24,9 @@ public class Recipe {
     private String directions;
 
     //private Difficulty difficulty;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
 
     @Lob
     private Byte[] image;
@@ -94,6 +98,14 @@ public class Recipe {
         this.directions = directions;
     }
 
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     public Byte[] getImage() {
         return image;
     }
@@ -120,13 +132,14 @@ public class Recipe {
         return Objects.equals(id, recipe.id) && Objects.equals(description, recipe.description) && Objects.equals(prepTime,
                 recipe.prepTime) && Objects.equals(cookTime, recipe.cookTime) && Objects.equals(servings, recipe.servings)
                 && Objects.equals(source, recipe.source) && Objects.equals(url, recipe.url) && Objects.equals(directions,
-                recipe.directions) && Arrays.equals(image, recipe.image) && Objects.equals(notes, recipe.notes);
+                recipe.directions) && Objects.equals(ingredients, recipe.ingredients) && Arrays.equals(image, recipe.image)
+                && Objects.equals(notes, recipe.notes);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(id, description, prepTime, cookTime, servings, source, url, directions, notes);
+        int result = Objects.hash(id, description, prepTime, cookTime, servings, source, url, directions, ingredients, notes);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
@@ -135,7 +148,8 @@ public class Recipe {
     public String toString() {
         return "Recipe{" + "id=" + id + ", description='" + description + '\'' + ", prepTime=" + prepTime + ", cookTime="
                 + cookTime + ", servings=" + servings + ", source='" + source + '\'' + ", url='" + url + '\'' + ", directions='"
-                + directions + '\'' + ", image=" + Arrays.toString(image) + ", notes=" + notes + '}';
+                + directions + '\'' + ", ingredients=" + ingredients + ", image=" + Arrays.toString(image) + ", notes=" + notes
+                + '}';
     }
 
 }
