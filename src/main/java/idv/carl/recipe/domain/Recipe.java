@@ -23,7 +23,8 @@ public class Recipe {
     private String url;
     private String directions;
 
-    //private Difficulty difficulty;
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
@@ -98,6 +99,14 @@ public class Recipe {
         this.directions = directions;
     }
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -132,14 +141,14 @@ public class Recipe {
         return Objects.equals(id, recipe.id) && Objects.equals(description, recipe.description) && Objects.equals(prepTime,
                 recipe.prepTime) && Objects.equals(cookTime, recipe.cookTime) && Objects.equals(servings, recipe.servings)
                 && Objects.equals(source, recipe.source) && Objects.equals(url, recipe.url) && Objects.equals(directions,
-                recipe.directions) && Objects.equals(ingredients, recipe.ingredients) && Arrays.equals(image, recipe.image)
-                && Objects.equals(notes, recipe.notes);
+                recipe.directions) && difficulty == recipe.difficulty && Objects.equals(ingredients, recipe.ingredients) && Arrays
+                .equals(image, recipe.image) && Objects.equals(notes, recipe.notes);
     }
 
     @Override
     public int hashCode() {
-
-        int result = Objects.hash(id, description, prepTime, cookTime, servings, source, url, directions, ingredients, notes);
+        int result = Objects.hash(id, description, prepTime, cookTime, servings, source, url, directions, difficulty, ingredients,
+                notes);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
@@ -148,8 +157,8 @@ public class Recipe {
     public String toString() {
         return "Recipe{" + "id=" + id + ", description='" + description + '\'' + ", prepTime=" + prepTime + ", cookTime="
                 + cookTime + ", servings=" + servings + ", source='" + source + '\'' + ", url='" + url + '\'' + ", directions='"
-                + directions + '\'' + ", ingredients=" + ingredients + ", image=" + Arrays.toString(image) + ", notes=" + notes
-                + '}';
+                + directions + '\'' + ", difficulty=" + difficulty + ", ingredients=" + ingredients + ", image="
+                + Arrays.toString(image) + ", notes=" + notes + '}';
     }
 
 }
