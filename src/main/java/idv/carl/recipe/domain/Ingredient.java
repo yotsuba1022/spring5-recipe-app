@@ -1,9 +1,6 @@
 package idv.carl.recipe.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -17,6 +14,9 @@ public class Ingredient {
     private Long id;
     private String description;
     private BigDecimal amount;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private UnitOfMeasure uom;
 
     @ManyToOne
     private Recipe recipe;
@@ -45,6 +45,14 @@ public class Ingredient {
         this.amount = amount;
     }
 
+    public UnitOfMeasure getUom() {
+        return uom;
+    }
+
+    public void setUom(UnitOfMeasure uom) {
+        this.uom = uom;
+    }
+
     public Recipe getRecipe() {
         return recipe;
     }
@@ -61,19 +69,18 @@ public class Ingredient {
             return false;
         Ingredient that = (Ingredient) o;
         return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(amount, that.amount)
-                && Objects.equals(recipe, that.recipe);
+                && Objects.equals(uom, that.uom) && Objects.equals(recipe, that.recipe);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, description, amount, recipe);
+        return Objects.hash(id, description, amount, uom, recipe);
     }
 
     @Override
     public String toString() {
-        return "Ingredient{" + "id=" + id + ", description='" + description + '\'' + ", amount=" + amount + ", recipe=" + recipe
-                + '}';
+        return "Ingredient{" + "id=" + id + ", description='" + description + '\'' + ", amount=" + amount + ", uom=" + uom
+                + ", recipe=" + recipe + '}';
     }
 
 }
