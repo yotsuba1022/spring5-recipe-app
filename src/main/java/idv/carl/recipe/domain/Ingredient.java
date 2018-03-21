@@ -7,6 +7,7 @@ import java.util.Objects;
 /**
  * @author Carl Lu
  */
+@Entity
 public class Ingredient {
 
     @Id

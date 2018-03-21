@@ -35,6 +35,10 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
+    @ManyToMany
+    @JoinTable(name = "recipe_category", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
+
     public Long getId() {
         return id;
     }
@@ -131,6 +135,14 @@ public class Recipe {
         this.notes = notes;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -142,13 +154,14 @@ public class Recipe {
                 recipe.prepTime) && Objects.equals(cookTime, recipe.cookTime) && Objects.equals(servings, recipe.servings)
                 && Objects.equals(source, recipe.source) && Objects.equals(url, recipe.url) && Objects.equals(directions,
                 recipe.directions) && difficulty == recipe.difficulty && Objects.equals(ingredients, recipe.ingredients) && Arrays
-                .equals(image, recipe.image) && Objects.equals(notes, recipe.notes);
+                .equals(image, recipe.image) && Objects.equals(notes, recipe.notes) && Objects.equals(categories,
+                recipe.categories);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(id, description, prepTime, cookTime, servings, source, url, directions, difficulty, ingredients,
-                notes);
+                notes, categories);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
@@ -158,7 +171,7 @@ public class Recipe {
         return "Recipe{" + "id=" + id + ", description='" + description + '\'' + ", prepTime=" + prepTime + ", cookTime="
                 + cookTime + ", servings=" + servings + ", source='" + source + '\'' + ", url='" + url + '\'' + ", directions='"
                 + directions + '\'' + ", difficulty=" + difficulty + ", ingredients=" + ingredients + ", image="
-                + Arrays.toString(image) + ", notes=" + notes + '}';
+                + Arrays.toString(image) + ", notes=" + notes + ", categories=" + categories + '}';
     }
 
 }
