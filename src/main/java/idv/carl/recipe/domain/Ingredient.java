@@ -2,7 +2,6 @@ package idv.carl.recipe.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * @author Carl Lu
@@ -21,6 +20,13 @@ public class Ingredient {
 
     @ManyToOne
     private Recipe recipe;
+
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom, Recipe recipe) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+        this.recipe = recipe;
+    }
 
     public Long getId() {
         return id;
@@ -60,22 +66,6 @@ public class Ingredient {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Ingredient that = (Ingredient) o;
-        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(amount, that.amount)
-                && Objects.equals(uom, that.uom) && Objects.equals(recipe, that.recipe);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, amount, uom, recipe);
     }
 
     @Override

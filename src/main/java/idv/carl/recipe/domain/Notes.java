@@ -1,7 +1,6 @@
 package idv.carl.recipe.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * @author Carl Lu
@@ -41,23 +40,6 @@ public class Notes {
 
     public void setRecipeNotes(String recipeNotes) {
         this.recipeNotes = recipeNotes;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Notes notes = (Notes) o;
-        return Objects.equals(id, notes.id) && Objects.equals(recipe, notes.recipe) && Objects.equals(recipeNotes,
-                notes.recipeNotes);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, recipe, recipeNotes);
     }
 
     @Override

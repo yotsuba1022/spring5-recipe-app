@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Objects;
 
 /**
  * @author Carl Lu
@@ -31,22 +30,6 @@ public class UnitOfMeasure {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UnitOfMeasure that = (UnitOfMeasure) o;
-        return Objects.equals(id, that.id) && Objects.equals(description, that.description);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, description);
     }
 
     @Override

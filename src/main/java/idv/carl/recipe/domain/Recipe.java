@@ -2,7 +2,7 @@ package idv.carl.recipe.domain;
 
 import javax.persistence.*;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,13 +21,15 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+
+    @Lob
     private String directions;
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     @Lob
     private Byte[] image;
@@ -37,7 +39,7 @@ public class Recipe {
 
     @ManyToMany
     @JoinTable(name = "recipe_category", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -141,29 +143,6 @@ public class Recipe {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Recipe recipe = (Recipe) o;
-        return Objects.equals(id, recipe.id) && Objects.equals(description, recipe.description) && Objects.equals(prepTime,
-                recipe.prepTime) && Objects.equals(cookTime, recipe.cookTime) && Objects.equals(servings, recipe.servings)
-                && Objects.equals(source, recipe.source) && Objects.equals(url, recipe.url) && Objects.equals(directions,
-                recipe.directions) && difficulty == recipe.difficulty && Objects.equals(ingredients, recipe.ingredients) && Arrays
-                .equals(image, recipe.image) && Objects.equals(notes, recipe.notes) && Objects.equals(categories,
-                recipe.categories);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(id, description, prepTime, cookTime, servings, source, url, directions, difficulty, ingredients,
-                notes, categories);
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
     }
 
     @Override
