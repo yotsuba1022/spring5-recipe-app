@@ -1,13 +1,16 @@
 package idv.carl.recipe.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 /**
  * @author Carl Lu
  */
+
 @Data
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Notes {
 
@@ -22,10 +25,6 @@ public class Notes {
     private String recipeNotes;
 
     public Notes() {
-    }
-
-    public boolean canEqual(Object other) {
-        return other instanceof Notes;
     }
 
 }
