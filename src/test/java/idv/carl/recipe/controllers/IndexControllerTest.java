@@ -1,17 +1,20 @@
 package idv.carl.recipe.controllers;
 
+import idv.carl.recipe.domain.Recipe;
 import idv.carl.recipe.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Carl Lu
@@ -34,11 +37,28 @@ public class IndexControllerTest {
 
     @Test
     public void getIndexPage() {
+        // given
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        recipe1.setId(1L);
+        recipe2.setId(2L);
+
+        Set<Recipe> recipes = new HashSet<>();
+        recipes.add(recipe1);
+        recipes.add(recipe2);
+
+        // when
+        when(recipeService.getRecipes()).thenReturn(recipes);
+        ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
+
+        // then
         String expected = "index";
         String actual = indexController.getIndexPage(model);
 
         assertEquals(expected, actual);
         verify(recipeService, times(1)).getRecipes();
-        verify(model, times(1)).addAttribute(eq("recipes"), anySet());
+        verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
+        Set<Recipe> actualRecipes = argumentCaptor.getValue();
+        assertEquals(2, actualRecipes.size());
     }
 }
