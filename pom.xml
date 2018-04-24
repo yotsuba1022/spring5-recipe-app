@@ -72,15 +72,14 @@
                 <version>${mvn.failsafe.version}</version>
                 <configuration>
                     <includes>
-                        <include>**/*IntegrationTest.java</include>
+                        <include>**/*IT.java</include>
                     </includes>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <parallel>none</parallel>
+                    <classesDirectory>${basedir}/target/classes</classesDirectory>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
